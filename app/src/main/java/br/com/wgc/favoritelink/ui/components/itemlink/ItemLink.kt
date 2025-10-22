@@ -1,4 +1,4 @@
-package br.com.wgc.favoritelink.ui.components
+package br.com.wgc.favoritelink.ui.components.itemlink
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -26,25 +26,24 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ItemLink(
     modifier: Modifier = Modifier,
-    name: String,
-    url: String,
-    isFavorite: Boolean,
-    onFavoriteClick: () -> Unit
+    itemLinkModel: ItemLinkModel,
+    onFavoriteClick: ()-> Unit
+
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .border(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(all = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(
-                text = name,
+                text = itemLinkModel.name,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                text = url,
+                text = itemLinkModel.url,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -52,16 +51,13 @@ fun ItemLink(
         Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = onFavoriteClick) {
             Icon(
-                imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = if (isFavorite) "Remover dos favoritos" else "Adicionar aos favoritos",
-                tint = if (isFavorite) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline
+                imageVector = if (itemLinkModel.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = if (itemLinkModel.isFavorite) "Remover dos favoritos" else "Adicionar aos favoritos",
+                tint = if (itemLinkModel.isFavorite) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline
             )
         }
     }
 }
-
-
-
 
 
 @Preview(showBackground = true)
@@ -70,11 +66,11 @@ private fun ItemLinkPreview() {
     var isFavorite by remember { mutableStateOf(false) }
 
     ItemLink(
-        name = "Google",
-        url = "https://www.google.com",
-        isFavorite = isFavorite,
-        onFavoriteClick = {
-            isFavorite = !isFavorite
-        }
+        itemLinkModel = ItemLinkModel(
+            name = "Google",
+            url = "https://www.google.com",
+            isFavorite = isFavorite,
+        ),
+        onFavoriteClick = {}
     )
 }
