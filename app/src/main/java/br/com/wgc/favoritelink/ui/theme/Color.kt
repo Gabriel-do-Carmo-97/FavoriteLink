@@ -1,4 +1,4 @@
-package br.com.wgc.favoritelink.theme
+package br.com.wgc.favoritelink.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
