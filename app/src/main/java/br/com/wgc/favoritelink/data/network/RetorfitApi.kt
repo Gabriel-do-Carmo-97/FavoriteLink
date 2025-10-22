@@ -1,4 +1,4 @@
-package br.com.wgc.favoritelink.data
+package br.com.wgc.favoritelink.data.network
 
 import br.com.wgc.favoritelink.data.api.LinkApi
 import com.squareup.moshi.Moshi
