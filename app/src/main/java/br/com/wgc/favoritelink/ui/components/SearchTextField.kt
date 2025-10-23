@@ -24,14 +24,15 @@ fun SearchTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    leadingIcon: ImageVector? = null
+    leadingIcon: ImageVector? = null,
+    iconDescription: String? = null
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(100),
-        leadingIcon = { if (leadingIcon != null) Icon(leadingIcon, null) },
+        leadingIcon = { if (leadingIcon != null) Icon(leadingIcon, iconDescription) },
         label = { Text(text = label) },
         maxLines = 1,
         singleLine = true,

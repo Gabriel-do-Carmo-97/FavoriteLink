@@ -116,6 +116,7 @@ fun HomeScreen(
                 onValueChange = onSearchTextChanged,
                 label = "Pesquisar",
                 leadingIcon = Icons.Default.Search,
+                iconDescription = "Ícone de pesquisa"
             )
 
             LazyColumn(
