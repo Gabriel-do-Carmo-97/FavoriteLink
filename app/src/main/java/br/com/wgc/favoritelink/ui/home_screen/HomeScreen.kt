@@ -21,16 +21,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.com.wgc.favoritelink.ui.components.AddLinkDialog
 import br.com.wgc.favoritelink.ui.components.SearchTextField
 import br.com.wgc.favoritelink.ui.components.itemlink.ItemLink
 import br.com.wgc.favoritelink.ui.components.itemlink.ItemLinkModel
 import java.util.UUID
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     HomeScreen(

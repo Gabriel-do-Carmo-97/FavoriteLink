@@ -8,10 +8,12 @@ import retrofit2.http.Path
 
 interface LinkApi {
     @POST("api/alias")
-    suspend fun createAlias(@Body url: String): LinkResponse
+    suspend fun createAlias(
+        @Body url: String
+    ): LinkResponse
 
     @GET("api/alias/{id}")
-    suspend fun getLinkByAlias(
+    suspend fun getLinkByID(
         @Path("id") id: String
     ): LinkResponse
 }
