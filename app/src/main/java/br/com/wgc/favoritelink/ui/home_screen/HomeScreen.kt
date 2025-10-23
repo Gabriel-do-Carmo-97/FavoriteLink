@@ -12,7 +12,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.com.wgc.favoritelink.ui.components.AddLinkDialog
+import br.com.wgc.favoritelink.ui.components.ExcludeLinkDialog
 import br.com.wgc.favoritelink.ui.components.SearchTextField
 import br.com.wgc.favoritelink.ui.components.itemlink.ItemLink
 import br.com.wgc.favoritelink.ui.components.itemlink.ItemLinkModel
@@ -34,11 +38,37 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    var linkToDelete by remember { mutableStateOf<UUID?>(null) }
+
+    LaunchedEffect(uiState.errorMessage) {
+        uiState.errorMessage?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            viewModel.onErrorMessageShown()
+        }
+    }
+
+    linkToDelete?.let { id ->
+        ExcludeLinkDialog(
+            onDismissRequest = {
+                linkToDelete = null
+            },
+            onConfirm = {
+                viewModel.deleteLink(id)
+                linkToDelete = null
+            }
+        )
+    }
+
     HomeScreen(
         modifier = modifier,
         state = uiState,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         onSearchTextChanged = viewModel::onSearchTextChanged,
         onFavoriteClick = viewModel::onFavoriteClick,
+        onDeleteItem = { linkItem->
+            linkToDelete = linkItem
+        },
         onAddLinkClick = viewModel::onAddLinkClick
     )
 }
@@ -46,12 +76,13 @@ fun HomeScreen(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     state: HomeScreenState,
+    snackbarHost: @Composable () -> Unit,
     onSearchTextChanged: (String) -> Unit,
     onFavoriteClick: (UUID) -> Unit,
+    onDeleteItem: (UUID) -> Unit,
     onAddLinkClick: (name: String, url: String) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
-
     if (showDialog) {
         AddLinkDialog(
             onDismissRequest = { showDialog = false },
@@ -61,8 +92,10 @@ fun HomeScreen(
             }
         )
     }
+
     Scaffold(
         modifier = modifier,
+        snackbarHost = snackbarHost,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showDialog = true },
@@ -91,7 +124,7 @@ fun HomeScreen(
             ) {
                 items(
                     items = state.links,
-                    key = { it.id } 
+                    key = { it.id }
                 ) { linkItem ->
                     ItemLink(
                         itemLinkModel = ItemLinkModel(
@@ -99,7 +132,8 @@ fun HomeScreen(
                             url = linkItem.url,
                             isFavorite = linkItem.isFavorite,
                         ),
-                        onFavoriteClick = { onFavoriteClick(linkItem.id) }
+                        onFavoriteClick = { onFavoriteClick(linkItem.id) },
+                        onLongClick = { onDeleteItem(linkItem.id) }
                     )
                 }
             }
@@ -122,9 +156,11 @@ private fun HomeScreenPreview() {
     MaterialTheme {
         HomeScreen(
             state = previewState,
+            snackbarHost = {},
             onSearchTextChanged = {},
             onFavoriteClick = {},
-            onAddLinkClick = { _, _ -> }
+            onAddLinkClick = { _, _ -> },
+            onDeleteItem = {}
         )
     }
 }

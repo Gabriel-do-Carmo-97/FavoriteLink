@@ -1,6 +1,7 @@
 package br.com.wgc.favoritelink.ui.components.itemlink
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,12 +28,17 @@ import androidx.compose.ui.unit.dp
 fun ItemLink(
     modifier: Modifier = Modifier,
     itemLinkModel: ItemLinkModel,
-    onFavoriteClick: ()-> Unit
+    onFavoriteClick: ()-> Unit,
+    onLongClick: () -> Unit
 
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .combinedClickable(
+                onClick = {},
+                onLongClick = onLongClick
+            )
             .border(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
             .padding(all = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -71,6 +77,7 @@ private fun ItemLinkPreview() {
             url = "https://www.google.com",
             isFavorite = isFavorite,
         ),
-        onFavoriteClick = {}
+        onFavoriteClick = {},
+        onLongClick = {}
     )
 }

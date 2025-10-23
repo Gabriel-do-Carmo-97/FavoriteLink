@@ -3,7 +3,6 @@ package br.com.wgc.favoritelink.data.repository
 import br.com.wgc.favoritelink.data.api.LinkApi
 import br.com.wgc.favoritelink.data.local.dao.LinkDao
 import br.com.wgc.favoritelink.data.local.entity.LinkEntity
-import br.com.wgc.favoritelink.data.model.response.LinkResponse
 import br.com.wgc.favoritelink.data.model.request.CreateAliasRequest
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +23,6 @@ class LinkRepository @Inject constructor(
         )
         linkDao.insertLink(newLinkEntity)
     }
-    suspend fun getLinkByID(id: String): LinkResponse = linkApi.getLinkByID(id)
     suspend fun updateLink(link: LinkEntity) = linkDao.updateLink(link)
     suspend fun deleteLink(id: UUID) = linkDao.deleteLinkById(id)
 

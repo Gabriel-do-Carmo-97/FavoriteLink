@@ -82,15 +82,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getLinkByID(id: UUID) {
-        viewModelScope.launch {
-            try {
-                _errorMessage.value = null
-                linkRepository.getLinkByID(id.toString())
-            } catch (e: Exception) {
-                _errorMessage.value = "Falha ao criar o link: ${e.message}"
-            }
-        }
+    fun onErrorMessageShown() {
+        _errorMessage.value = null
     }
 
     fun deleteLink(id: UUID) {
