@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.wgc.favoritelink.data.local.entity.LinkEntity
 import br.com.wgc.favoritelink.data.mapper.toItemLinkModel
 import br.com.wgc.favoritelink.data.mapper.toLinkEntity
+import br.com.wgc.favoritelink.data.model.request.CreateAliasRequest
 import br.com.wgc.favoritelink.data.repository.LinkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -60,7 +61,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _errorMessage.value = null
-                linkRepository.createAndSaveLink(name, url)
+                linkRepository.createAndSaveLink(name, CreateAliasRequest(url))
             } catch (e: Exception) {
                 _errorMessage.value = "Falha ao criar o link: ${e.message}"
             }
