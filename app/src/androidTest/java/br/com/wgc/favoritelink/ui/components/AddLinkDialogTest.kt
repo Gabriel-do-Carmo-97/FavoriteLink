@@ -30,9 +30,6 @@ class AddLinkDialogTest {
         every { this@mockk.invoke(any(), any()) } just runs
     }
 
-    /**
-     * Teste 1: Verifica se todos os elementos visuais iniciais são exibidos.
-     */
     @Test
     fun whenDialogIsFirstDisplayed_thenAllElementsAreVisible() {
         composeTestRule.setContent {
@@ -46,9 +43,6 @@ class AddLinkDialogTest {
         composeTestRule.onNodeWithText("Cancelar").assertIsDisplayed()
     }
 
-    /**
-     * Teste 2: Garante que o botão "Adicionar" está desabilitado quando os campos estão vazios.
-     */
     @Test
     fun whenFieldsAreEmpty_thenConfirmButtonIsDisabled() {
         composeTestRule.setContent {
@@ -58,9 +52,6 @@ class AddLinkDialogTest {
         composeTestRule.onNodeWithText("Adicionar").assertIsNotEnabled()
     }
 
-    /**
-     * Teste 3: Garante que o botão "Adicionar" é habilitado somente quando AMBOS os campos são preenchidos.
-     */
     @Test
     fun whenBothFieldsAreFilled_thenConfirmButtonIsEnabled() {
         composeTestRule.setContent {
@@ -73,9 +64,6 @@ class AddLinkDialogTest {
         composeTestRule.onNodeWithText("Adicionar").assertIsEnabled()
     }
 
-    /**
-     * Teste 4: Verifica que, se apenas um campo for preenchido, o botão "Adicionar" permanece desabilitado.
-     */
     @Test
     fun whenOnlyOneFieldIsFilled_thenConfirmButtonIsDisabled() {
         composeTestRule.setContent {
@@ -85,10 +73,6 @@ class AddLinkDialogTest {
         composeTestRule.onNodeWithText("Adicionar").assertIsNotEnabled()
     }
 
-    /**
-     * Teste 5: Simula um clique no botão "Adicionar" (quando habilitado) e verifica se `onConfirm`
-     * é chamado com os dados corretos.
-     */
     @Test
     fun whenConfirmButtonIsClicked_thenOnConfirmIsCalledWithCorrectData() {
         val nameInput = "Google"
@@ -105,9 +89,6 @@ class AddLinkDialogTest {
         verify(exactly = 0) { onDismissRequest() }
     }
 
-    /**
-     * Teste 6: Simula um clique no botão "Cancelar" e verifica se `onDismissRequest` é chamado.
-     */
     @Test
     fun whenDismissButtonIsClicked_thenOnDismissRequestIsCalled() {
         composeTestRule.setContent {
