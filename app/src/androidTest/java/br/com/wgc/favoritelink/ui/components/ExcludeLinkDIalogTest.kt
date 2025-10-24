@@ -28,10 +28,6 @@ class ExcludeLinkDialogTest {
         every { this@mockk.invoke() } just runs
     }
 
-    /**
-     * Teste 1: Verifica se todos os elementos visuais (ícone, título, texto e botões)
-     * são exibidos corretamente quando o diálogo aparece.
-     */
     @Test
     fun whenDialogIsDisplayed_thenAllElementsAreVisible() {
         composeTestRule.setContent {
@@ -49,10 +45,6 @@ class ExcludeLinkDialogTest {
         composeTestRule.onNodeWithText("Cancelar").assertIsDisplayed()
     }
 
-    /**
-     * Teste 2: Simula um clique no botão de confirmação ("Excluir") e verifica
-     * se o callback `onConfirm` é chamado.
-     */
     @Test
     fun whenConfirmButtonIsClicked_thenOnConfirmIsCalled() {
         composeTestRule.setContent {
@@ -67,10 +59,6 @@ class ExcludeLinkDialogTest {
         verify(exactly = 0) { onDismissRequest.invoke() }
     }
 
-    /**
-     * Teste 3: Simula um clique no botão de cancelamento ("Cancelar") e verifica
-     * se o callback `onDismissRequest` é chamado.
-     */
     @Test
     fun whenDismissButtonIsClicked_thenOnDismissRequestIsCalled() {
         composeTestRule.setContent {
